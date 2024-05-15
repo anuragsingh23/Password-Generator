@@ -11,17 +11,56 @@ const passwordSchema = Yup.object().shape({
 })
 
 const App = () => {
-  const [password, setPassowrd] = useState('')
-  const [lowercase, Islowercase] = useState(false)
-  const [uppercase, isUppercase] = useState(false)
-  const [symbol, isSymbol] = useState(false)
+  const [password, setPassword] = useState('')
+  const [passwordGenerated, setIsPassGenerated] = useState(false)
+
+  const [lowerCase, setLowerCase] = useState(false)
+  const [uppercase, setupperCase] = useState(false)
+  const [symbol, setNumbers] = useState(false)
+  const [numbers, setSymbols] = useState(false)
+
 
   const generatePasswordString = (passwordLength:number) => {
-    //
+    let characterList = '';
+
+    const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const digitChars = '0123456789';
+    const specialChars = '!@#$%^&*()_+';
+
+    if(uppercase){
+      characterList += upperCaseChars
+    }
+    if (lowerCase) {
+      characterList += lowerCaseChars
+    }
+    if (numbers) {
+      characterList += digitChars
+    }
+    if (symbol) {
+      characterList += specialChars
+    }
+    setPassword(createPassword(characterList, passwordLength))
+    setIsPassGenerated(true)
   }
 
-  const createPassword = (char:String, passwordLength: number) => {}
-  const resetPassword = () => {}
+  const createPassword = (char:String, passwordLength: number) => {
+    let result='';
+    for(let i=0; i<passwordLength;i++){
+        const charaterIndex = Math.round(Math.random() * char.length)
+       result += char.charAt(charaterIndex)
+    }
+    return result
+  }
+
+  const resetPassword = () => {
+    setPassword('')
+    setIsPassGenerated(false)
+    setLowerCase(true)
+    setupperCase(false)
+    setNumbers(false)
+    setSymbols(false)
+  }
 
   return (
     <View>
